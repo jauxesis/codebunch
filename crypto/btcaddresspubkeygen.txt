@@ -1,0 +1,35 @@
+beforeGenerateBitcoinAddress(){
+    // 165.227.177.53 setup for this app
+    // console.log(bitcoin)
+
+    // var testnet = bitcoin.networks.testnet;
+    var mainnet = bitcoin.networks.bitcoin;
+    // if(this.globals.environment == "prod"){
+    //   mainnet = bitcoin.networks.bitcoin;
+    // }else if(this.globals.environment == "staging"){
+    //   mainnet = bitcoin.networks.testnet;
+    // }else{
+    //   mainnet = bitcoin.networks.testnet;
+    // }
+    // console.log(testnet)
+    // var keyPair = bitcoin.ECPair.makeRandom({network:testnet});//, rng: this.rng
+    var keyPair = bitcoin.ECPair.makeRandom({network:mainnet});//, rng: this.rng
+    // console.log(keyPair)
+
+    var address = keyPair.getAddress();
+    // console.log("testnetaddress",address)
+
+    var pkey = keyPair.toWIF();
+    // console.log("testnetprivatekey\n",pkey)
+
+    var pubkey = keyPair.getPublicKeyBuffer();
+    var genpubkey = pubkey.toString('hex');
+    // console.log("testnetpublickey\n",genpubkey,typeof genpubkey)
+
+    var usingsha = bitcoin.crypto.hash256(pubkey);
+    var usingshapubkey = usingsha.toString('hex');
+    // console.log("testnetpubsha\n",usingshapubkey)
+
+    this.generateBitcoinAddress = address;
+    this.generateBitcoinPKey = genpubkey;
+  }

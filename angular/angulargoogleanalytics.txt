@@ -1,0 +1,62 @@
+app.component.ts
+import { Router, ActivatedRoute, ParamMap,NavigationEnd,NavigationStart, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/router';
+
+this.router.events.filter(event => event instanceof NavigationStart).subscribe(event => {
+      const url = event['url'];
+      if (url !== null && url !== undefined && url !== '' && url.indexOf('null') < 0) {
+        googleAnalytics(url);
+      }
+    });
+
+
+create service>>>
+
+script.d.ts
+export declare function googleAnalyticsHeadScripts();
+export declare function googleAnalytics(url);
+
+
+
+&
+script.js
+import {environment} from "../../../environments/environment";
+// import { GlobalparamsService } from "../globalparams.service";
+// console.log("i cl",GlobalparamsService.environment)
+const analytics = environment.google_analytics_code;
+
+export function googleAnalyticsHeadScripts(){
+  const head = document.getElementsByTagName('head')[0];
+
+  const googleAnalyticsFirstScript = document.createElement('script');
+  googleAnalyticsFirstScript.async = true;
+  googleAnalyticsFirstScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + analytics;
+
+  const googleAnalyticsSecondScript = document.createElement('script');
+  googleAnalyticsSecondScript.innerHTML = '    window.dataLayer = window.dataLayer || [];\n' +
+    '    function gtag(){dataLayer.push(arguments);}\n' +
+    '    gtag(\'js\', new Date());\n' +
+    '\n' +
+    '    gtag(\'config\', \'' + analytics + '\');';
+
+  head.insertBefore(googleAnalyticsSecondScript, head.firstChild);
+  head.insertBefore(googleAnalyticsFirstScript, head.firstChild);
+}
+
+export function googleAnalytics(url) {
+  gtag('config', analytics, {'page_path': url});
+}
+
+
+
+in environment.ts and ...prod.ts
+google_analytics_code: 'UA-76655590-8',
+  google_analytics_code_prod: 'UA-76655590-9'
+
+
+
+in main.ts
+import {googleAnalyticsHeadScripts} from './app/services/ga/script';
+if (environment.production) {
+  enableProdMode();
+}
+googleAnalyticsHeadScripts();

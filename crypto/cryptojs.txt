@@ -1,0 +1,26 @@
+import * as sha512 from 'js-sha512';
+
+saveToLocal(name,str){
+  try{
+  let token = "some string as token holder to decrypt the encrypted text";
+  //console.log(token)
+  let storeStr = (CryptoJS.AES.encrypt(str,token)).toString();
+  //console.log(storeStr)
+  }catch(e){}
+}
+
+retrieveFromLocal(name):any{
+  try{
+    let token = "some string as token holder to decrypt the encrypted text";
+    let fromStorage = name;
+    //console.log(fromStorage)
+    if(fromStorage == "" || fromStorage == null){
+      return "";
+    }else{
+      let getDecrypt = CryptoJS.AES.decrypt(fromStorage,token);
+      let finalStr = "";
+      finalStr = getDecrypt.toString(CryptoJS.enc.Utf8);
+      return finalStr;
+    }
+  }catch(e){}
+}

@@ -1,0 +1,55 @@
+var IDLE_TIMEOUT = 300; //seconds
+var _idleSecondsCounter = 0;
+document.onclick = function() {
+    _idleSecondsCounter = 0;
+};
+document.onmousemove = function() {
+    _idleSecondsCounter = 0;
+};
+document.onkeypress = function() {
+    _idleSecondsCounter = 0;
+};
+var myInterval = window.setInterval(CheckIdleTime, 1000);
+
+function logoutFromSession(){ }
+
+function CheckIdleTime() {
+    _idleSecondsCounter++;
+    var oPanel = document.getElementsByTagName("body");
+    //if (oPanel)
+        //console.log((IDLE_TIMEOUT - _idleSecondsCounter) + "");
+        //oPanel.innerHTML = (IDLE_TIMEOUT - _idleSecondsCounter) + "";
+
+    if (_idleSecondsCounter >= IDLE_TIMEOUT) {
+        window.clearInterval(myInterval);
+        bootbox.confirm({
+                message: "Session is timed out, are you keep using admin panel?",
+                buttons: {
+                    confirm: {
+                        label: 'Close session',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'I am still using',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    //console.log('This was logged in the callback: ' + result);
+                    if(result == true){
+                        console.log("Time expired!");
+                        //document.location.href = "index.html";
+                        logoutFromSession();
+                    }else{
+                        IDLE_TIMEOUT = 300; //seconds
+                        _idleSecondsCounter = 0;
+                        myInterval = window.setInterval(CheckIdleTime, 1000);
+                    }
+                    /*setTimeout(()=>{
+                        console.log("Time expired!");
+                        document.location.href = "index.html";
+                    },10000);*/
+                }
+        });
+    }
+}

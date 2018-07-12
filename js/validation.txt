@@ -1,0 +1,86 @@
+// email validation
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
+// mobile number validation
+function validateMobileNumber(number){
+    let regex = /^([0|\+[0-9]{1,5})?([7-9][0-9]{9})$/;
+    return regex.test(number);
+}
+
+// amount in precision upto 6th place
+function calcsubstr(amnt){
+    let retrieve = 0;
+    // console.log("**********************************\n","base",amnt);
+    if(amnt == 0){
+        retrieve = 0;
+    }else{
+        var l2 = amnt - Math.floor(amnt);
+        // console.log("florr",l2)
+
+        var l = Math.floor(amnt);
+        // console.log("flrr<-",l);
+
+        let l1 = l2.toString().substr(0,8);
+        // console.log("substr->",l1)
+
+        var l3 = eval((l)+parseFloat(l1));
+        // console.log("retr",l3)
+
+        retrieve = l3;
+    }
+    return retrieve;
+}
+or
+Number.parseFloat(ceth).toFixed(6)
+
+// password validation
+function checkPassword(password){
+  try{
+    var regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+    var matched = password.match(regex);
+    if(matched == "" || matched == null)
+      return false;
+    else
+      return true;
+  }catch(e){
+    return false;
+  }
+}
+
+// key submit event
+toSubmit(evt){
+  try{
+    var val =  evt.target.value;
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode == 13) {
+      methodtosubmit();
+      return true;
+    }
+  }
+  catch(e){
+    return false;
+  }
+}
+
+// dont allow keyboard to hit < > special chars
+keyboardAllowEvent(evt){
+  try{
+    var val =  evt.target.value;
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    // console.log(charCode,val)
+    if (charCode == 60 || charCode == 62 || charCode == 123 || charCode == 125) {
+      return false;
+    }
+  }
+  catch(e){
+    return false;
+  }
+}
+
+// to break event
+evt.preventDefault();
